@@ -56,7 +56,7 @@ config :posting_image, PostingImageWeb.Endpoint,
 config :posting_image, PostingImageWeb.Endpoint,
   live_reload: [
     patterns: [
-      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
+      ~r"priv/static/[^uploads].*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/posting_image_web/(controllers|live|components)/.*(ex|heex)$"
     ]

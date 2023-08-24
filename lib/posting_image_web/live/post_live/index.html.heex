@@ -1,0 +1,29 @@
+ <.header> Listing Posts
+  <:actions><.link patch={~p"/posts/new"}><.button>New Post</.button></.link></:actions>
+ </.header>
+
+<div class="bg-yellow-400 flex flex-col gap-2 p-4">
+ <div :for={{key, post} <- @streams.posts} id="posts">
+  <div class="flex flex-col justify-center items-center p-4 bg-white border-4 rounded-lg">
+    <img src={post.uploaded_files} class="h-48 w-full rounded-2xl bg-black"/>
+    <h5 class="text-2xl font-semibold"><%= post.username %></h5>
+    <span class="text-lg font-normal"><%= post.descrption %></span>
+    <div id={"#{key}post-#{post.id}"}>
+      <.link phx-click={JS.push("delete", value: %{id: post.id})}
+        data-confirm="Are you sure?">Delete</.link>
+      <.link navigate={~p"/posts/#{post}"}>Show</.link>
+      <.link patch={~p"/posts/#{post}/edit"}>Edit</.link>
+    </div>
+  </div>
+ </div>
+</div>
+
+
+
+  <.modal :if={@live_action in [:new, :edit]} id="post-modal" show on_cancel={JS.patch(~p"/posts")}>
+    <.live_component
+      module={PostingImageWeb.PostLive.FormComponent} id={@post.id || :new}
+      title={@page_title} action={@live_action} post={@post}
+      patch={~p"/posts"}
+    />
+  </.modal>
